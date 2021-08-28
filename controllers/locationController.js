@@ -89,7 +89,8 @@ exports.getlocations = (req, res) => {
     }
 
     else {
-        res.status(200).json(locations);
+        geoLocation["suggestions"] = geoLocationarr;
+        res.status(200).json(geoLocation);
         
     }
     geoLocationarr.sort((a, b) => b.score - a.score);
