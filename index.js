@@ -12,7 +12,7 @@ const locationRoutes  = require('./routes/locationRoutes');
 const app = express();
 app.use(helmet());
 app.use(compression()); //Compress all routes
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use("/suggestions", locationRoutes);
 app.get("/", (req, res) => res.send("Welcome to the location API!"));

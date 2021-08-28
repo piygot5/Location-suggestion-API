@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -15,8 +15,11 @@
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "https": "^1.0.0",
-    "line-by-line": "^0.1.6",
-    "uuid": "^8.2.0"
+    "line-by-line": "^0.1.6"
+    
+  },
+  "engines": {
+    "node": "14.16.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
