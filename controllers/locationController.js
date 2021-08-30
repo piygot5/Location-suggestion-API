@@ -7,11 +7,15 @@ const { cosineSimilarity, textCosineSimilarity } =  require('../utils/similarity
 
 
 
-const geoLocation = {"suggestions":[]};
-const geoLocationarr = []
+
+
 
 
 exports.getlocations = (req, res) => {
+    const geoLocation = {"suggestions":[]};
+    const geoLocationarr = [];
+
+    let locations = require("../data/geoLocation.json");
  
     const latitude = req.query.latitude;
     const longitude = req.query.longitude
