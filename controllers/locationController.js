@@ -36,7 +36,7 @@ exports.getlocations = (req, res) => {
         });
 
         geoLocationarr.sort((a, b) => b.score - a.score);
-        geoLocation["suggestions"] = geoLocationarr.slice(1,10);
+        geoLocation["suggestions"] = geoLocationarr.slice(0,10);
         
         
     }
@@ -54,7 +54,7 @@ exports.getlocations = (req, res) => {
             })
         });
         geoLocationarr.sort((a, b) => b.score - a.score);
-        geoLocation["suggestions"] = geoLocationarr.slice(1,10);
+        geoLocation["suggestions"] = geoLocationarr.slice(0,10);
         
         
 
@@ -73,7 +73,7 @@ exports.getlocations = (req, res) => {
             })
         });
         geoLocationarr.sort((a, b) => b.score - a.score);
-        geoLocation["suggestions"] = geoLocationarr.slice(1,10);
+        geoLocation["suggestions"] = geoLocationarr.slice(0,10);
         
         
 
@@ -91,7 +91,7 @@ exports.getlocations = (req, res) => {
             })
         });
         geoLocationarr.sort((a, b) => b.score - a.score);
-        geoLocation["suggestions"] = geoLocationarr.slice(1,10);
+        geoLocation["suggestions"] = geoLocationarr.slice(0,10);
         
         
 
