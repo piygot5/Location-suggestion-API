@@ -66,7 +66,7 @@ exports.getlocations = (req, res) => {
         else if (name!=undefined) {
             locations.forEach(location => {
                 const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
-                const score = Number((nameSimilarity).toFixed(2));
+                const score = nameSimilarity;
                 
                 geoLocationarr.push({
                     "name":location["name"],
