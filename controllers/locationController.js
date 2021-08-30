@@ -20,6 +20,14 @@ exports.getlocations = (req, res) => {
     const latitude = req.query.latitude;
     const longitude = req.query.longitude
     const name = req.query.q;
+    const resPerPage = 10;
+    const currentPage = Number(req.query.page) || 1;
+    const skip = resPerPage * (currentPage - 1);
+    const startIndex = skip;
+    const endIndex = skip + resPerPage;
+
+
+
     console.log(latitude,longitude,name);
 
 
@@ -40,7 +48,7 @@ exports.getlocations = (req, res) => {
         });
 
         geoLocationarr.sort((a, b) => b.score - a.score);
-        geoLocation["suggestions"] = geoLocationarr.slice(0,10);
+        geoLocation["suggestions"] = geoLocationarr.slice(startIndex,endIndex);
         
         
     }
@@ -58,7 +66,7 @@ exports.getlocations = (req, res) => {
             })
         });
         geoLocationarr.sort((a, b) => b.score - a.score);
-        geoLocation["suggestions"] = geoLocationarr.slice(0,10);
+        geoLocation["suggestions"] = geoLocationarr.slice(startIndex,endIndex);
         
         
 
@@ -77,7 +85,7 @@ exports.getlocations = (req, res) => {
             })
         });
         geoLocationarr.sort((a, b) => b.score - a.score);
-        geoLocation["suggestions"] = geoLocationarr.slice(0,10);
+        geoLocation["suggestions"] = geoLocationarr.slice(startIndex,endIndex);
         
         
 
@@ -95,7 +103,7 @@ exports.getlocations = (req, res) => {
             })
         });
         geoLocationarr.sort((a, b) => b.score - a.score);
-        geoLocation["suggestions"] = geoLocationarr.slice(0,10);
+        geoLocation["suggestions"] = geoLocationarr.slice(startIndex,endIndex);
         
         
 
@@ -108,6 +116,7 @@ exports.getlocations = (req, res) => {
         
         
     }
+    
     
 
 
