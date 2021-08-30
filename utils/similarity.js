@@ -1,22 +1,17 @@
-function dotProduct(vecA, vecB){
-    let product = 0;
-    for(let i=0;i<vecA.length;i++){
-        product += vecA[i] * vecB[i];
+exports.cosineSimilarity = (A,B) =>{
+    var dotproduct=0;
+    var mA=0;
+    var mB=0;
+    for(i = 0; i < A.length; i++){ // here you missed the i++
+        dotproduct += (A[i] * B[i]);
+        mA += (A[i]*A[i]);
+        mB += (B[i]*B[i]);
     }
-    return product;
-}
-
-function magnitude(vec){
-    let sum = 0;
-    for (let i = 0;i<vec.length;i++){
-        sum += vec[i] * vec[i];
-    }
-    return Math.sqrt(sum);
-}
-
-exports.cosineSimilarity = (vecA,vecB) => {
-    let similarityResult = dotProduct(vecA,vecB)/ (magnitude(vecA) * magnitude(vecB));
-    return similarityResult.toFixed(2);
+    mA = Math.sqrt(mA);
+    mB = Math.sqrt(mB);
+    var similarity = (dotproduct)/((mA)*(mB)) // here you needed extra brackets
+    var result = (similarity-(-1))/2;
+    return result;
 }
 
 
