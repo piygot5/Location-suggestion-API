@@ -132,7 +132,7 @@ exports.getlocations = (req, res) => {
                    
         }
 
-        if(geoLocation["suggestions"].length!=0 && geoLocation["suggestions"].score<=0.30){
+        if(geoLocation["suggestions"].length!=0 && geoLocation["suggestions"][0].score<=0.50){
             geoLocation["suggestions"] = [];
         }
         
