@@ -29,97 +29,118 @@ exports.getlocations = (req, res) => {
 
 
     console.log(latitude,longitude,name);
-
-
-    
-    if(longitude!= undefined && latitude!=undefined){
-        
-        locations.forEach(location => {
-            const locationSimilarity = Number(cosineSimilarity([latitude,longitude],[location["lat"],location["long"]]));
-            const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
-            const score = Number((( locationSimilarity + nameSimilarity )/2).toFixed(2))
-            
+    if(name===undefined && longitude === undefined && latitude ===undefined){
+        locations.forEach(location => {    
             geoLocationarr.push({
                 "name":location["name"],
                 "latitude": location["lat"],
-                "longitude": location["long"],
-                "score": score
+                "longitude": location["long"]
             })
         });
-
-        geoLocationarr.sort((a, b) => b.score - a.score);
         geoLocation["suggestions"] = geoLocationarr.slice(startIndex,endIndex);
-        
-        
-    }
-    else if (longitude!=undefined) {
-        locations.forEach(location => {
-            const locationSimilarity = Number(cosineSimilarity([longitude],[location["long"]]));
-            const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
-            const score = Number((( locationSimilarity + nameSimilarity )/2).toFixed(2));
+           
+    }else{
+
+
+        if(longitude!= undefined && latitude!=undefined){
             
-            geoLocationarr.push({
-                "name":location["name"],
-                "latitude": location["lat"],
-                "longitude": location["long"],
-                "score": score
-            })
-        });
-        geoLocationarr.sort((a, b) => b.score - a.score);
-        geoLocation["suggestions"] = geoLocationarr.slice(startIndex,endIndex);
-        
-        
+            locations.forEach(location => {
+                const locationSimilarity = Number(cosineSimilarity([latitude,longitude],[location["lat"],location["long"]]));
+                let score = 0
+                if(name!=undefined){
+                    const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
+                    score = Number((( locationSimilarity + nameSimilarity )/2).toFixed(2));
+                }
+                else{
+                    score = locationSimilarity;
+                }
 
-    }
-    else if (latitude!=undefined) {
-        locations.forEach(location => {
-            const locationSimilarity = Number(cosineSimilarity([latitude],[location["lat"]]));
-            const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
-            const score = Number((( locationSimilarity + nameSimilarity )/2).toFixed(2));
+                
+                geoLocationarr.push({
+                    "name":location["name"],
+                    "latitude": location["lat"],
+                    "longitude": location["long"],
+                    "score": score
+                })
+            });
+
+            geoLocationarr.sort((a, b) => b.score - a.score);
+            geoLocation["suggestions"] = geoLocationarr.slice(startIndex,endIndex);
             
-            geoLocationarr.push({
-                "name":location["name"],
-                "latitude": location["lat"],
-                "longitude": location["long"],
-                "score": score
-            })
-        });
-        geoLocationarr.sort((a, b) => b.score - a.score);
-        geoLocation["suggestions"] = geoLocationarr.slice(startIndex,endIndex);
-        
-        
-
-    }
-    else if (name!=undefined) {
-        locations.forEach(location => {
-            const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
-            const score = Number((nameSimilarity).toFixed(2));
             
-            geoLocationarr.push({
-                "name":location["name"],
-                "latitude": location["lat"],
-                "longitude": location["long"],
-                "score": score
-            })
-        });
-        geoLocationarr.sort((a, b) => b.score - a.score);
-        geoLocation["suggestions"] = geoLocationarr.slice(startIndex,endIndex);
+        }
+        else if (longitude!=undefined) {
+            locations.forEach(location => {
+                const locationSimilarity = Number(cosineSimilarity([longitude],[location["long"]]));
+                const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
+                const score = Number((( locationSimilarity + nameSimilarity )/2).toFixed(2));
+                
+                geoLocationarr.push({
+                    "name":location["name"],
+                    "latitude": location["lat"],
+                    "longitude": location["long"],
+                    "score": score
+                })
+            });
+            geoLocationarr.sort((a, b) => b.score - a.score);
+            geoLocation["suggestions"] = geoLocationarr.slice(startIndex,endIndex);
+            
+            
+
+        }
+        else if (latitude!=undefined) {
+            locations.forEach(location => {
+                const locationSimilarity = Number(cosineSimilarity([latitude],[location["lat"]]));
+                const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
+                const score = Number((( locationSimilarity + nameSimilarity )/2).toFixed(2));
+                
+                geoLocationarr.push({
+                    "name":location["name"],
+                    "latitude": location["lat"],
+                    "longitude": location["long"],
+                    "score": score
+                })
+            });
+            geoLocationarr.sort((a, b) => b.score - a.score);
+            geoLocation["suggestions"] = geoLocationarr.slice(startIndex,endIndex);
+            
+            
+
+        }
+        else if (name!=undefined) {
+            locations.forEach(location => {
+                const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
+                const score = Number((nameSimilarity).toFixed(2));
+                
+                geoLocationarr.push({
+                    "name":location["name"],
+                    "latitude": location["lat"],
+                    "longitude": location["long"],
+                    "score": score
+                })
+            });
+            geoLocationarr.sort((a, b) => b.score - a.score);
+            geoLocation["suggestions"] = geoLocationarr.slice(startIndex,endIndex);
+            
+            
+
+        }
+
+        else {
+            
+            geoLocation["suggestions"] = [];
+                   
+        }
+
+        if(geoLocation["suggestions"].length!=0 && geoLocation["suggestions"].score<=0.30){
+            geoLocation["suggestions"] = [];
+        }
         
         
 
+
+        
     }
-
-    else {
-        console.log("no data");
-        geoLocation["suggestions"] = [];
-
-        
-        
-    }
-    
-    
-
-
     res.status(200).json(geoLocation);
 }
 
