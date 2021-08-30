@@ -1,5 +1,5 @@
 const express = require("express");
-const helmet = require('helmet');
+//const helmet = require('helmet');
 const compression = require('compression');
 
 
@@ -10,7 +10,7 @@ const locationRoutes  = require('./routes/locationRoutes');
 
 
 const app = express();
-app.use(helmet());
+//app.use(helmet());
 app.use(compression()); //Compress all routes
 const PORT = process.env.PORT || 5000;
 

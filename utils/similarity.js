@@ -1,26 +1,3 @@
-function letterCountMap(str){
-    
-    let letterCount = {};
-    [...str].forEach((w)=>{
-        letterCount[w] = (letterCount[w] || 0) +1;
-
-    });
-return letterCount;
-}
-
-function addlettersToDictionary(letterCountmap, dict){
-    for(let key in letterCountmap){
-        dict[key] = true;
-    }
-}
-function letterMapToVector(map,dict){
-    let wordCountVector = [];
-    for (let term in dict){
-        wordCountVector.push(map[term] || 0);
-    }
-    return wordCountVector;
-}
-
 function dotProduct(vecA, vecB){
     let product = 0;
     for(let i=0;i<vecA.length;i++){
@@ -42,16 +19,52 @@ exports.cosineSimilarity = (vecA,vecB) => {
     return similarityResult.toFixed(2);
 }
 
-exports.textCosineSimilarity = (txtA,txtB) => {
-    const letterCountA = letterCountMap(txtA);
-    const letterCountB = letterCountMap(txtB);
-    let dict = {};
-    addlettersToDictionary(letterCountA,dict);
-    addlettersToDictionary(letterCountB,dict);
-    const vectorA = letterMapToVector(letterCountA,dict);
-    const vectorB = letterMapToVector(letterCountB,dict);
-    let similarityResultText = dotProduct(vectorA,vectorB)/ (magnitude(vectorA) * magnitude(vectorB));;
-    return similarityResultText.toFixed(2);
+
+exports.textCosineSimilarity = (s1, s2) => {
+  var longer = s1;
+  var shorter = s2;
+  if (s1.length < s2.length) {
+    longer = s2;
+    shorter = s1;
+  }
+  var longerLength = longer.length;
+  if (longerLength === 0) {
+    return 1.0;
+  }
+  var result =  (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+  var perc = Math.round(result*10000)/100;
+  return perc/100;
 }
+
+function editDistance(s1, s2) {
+  s1 = s1.toLowerCase();
+  s2 = s2.toLowerCase();
+
+  var costs = new Array();
+  for (var i = 0; i <= s1.length; i++) {
+    var lastValue = i;
+    for (var j = 0; j <= s2.length; j++) {
+      if (i == 0)
+        costs[j] = j;
+      else {
+        if (j > 0) {
+          var newValue = costs[j - 1];
+          if (s1.charAt(i - 1) != s2.charAt(j - 1))
+            newValue = Math.min(Math.min(newValue, lastValue),
+              costs[j]) + 1;
+          costs[j - 1] = lastValue;
+          lastValue = newValue;
+        }
+      }
+    }
+    if (i > 0)
+      costs[s2.length] = lastValue;
+  }
+  return costs[s2.length];
+}
+
+
+
+
 
 

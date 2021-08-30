@@ -26,7 +26,7 @@ exports.getlocations = (req, res) => {
             const locationSimilarity = Number(cosineSimilarity([latitude,longitude],[location["lat"],location["long"]]));
             const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
             const score = Number((( locationSimilarity + nameSimilarity )/2).toFixed(2))
-            console.log(typeof(score));
+            
             geoLocationarr.push({
                 "name":location["name"],
                 "latitude": location["lat"],
@@ -34,6 +34,9 @@ exports.getlocations = (req, res) => {
                 "score": score
             })
         });
+
+        geoLocationarr.sort((a, b) => b.score - a.score);
+        geoLocation["suggestions"] = geoLocationarr.slice(1,10);
         
         
     }
@@ -42,7 +45,7 @@ exports.getlocations = (req, res) => {
             const locationSimilarity = Number(cosineSimilarity([longitude],[location["long"]]));
             const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
             const score = Number((( locationSimilarity + nameSimilarity )/2).toFixed(2));
-            //console.log(typeof(locationSimilarity),typeof(nameSimilarity));
+            
             geoLocationarr.push({
                 "name":location["name"],
                 "latitude": location["lat"],
@@ -50,6 +53,8 @@ exports.getlocations = (req, res) => {
                 "score": score
             })
         });
+        geoLocationarr.sort((a, b) => b.score - a.score);
+        geoLocation["suggestions"] = geoLocationarr.slice(1,10);
         
         
 
@@ -59,7 +64,7 @@ exports.getlocations = (req, res) => {
             const locationSimilarity = Number(cosineSimilarity([latitude],[location["lat"]]));
             const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
             const score = Number((( locationSimilarity + nameSimilarity )/2).toFixed(2));
-            //console.log(typeof(locationSimilarity),typeof(nameSimilarity));
+            
             geoLocationarr.push({
                 "name":location["name"],
                 "latitude": location["lat"],
@@ -67,6 +72,8 @@ exports.getlocations = (req, res) => {
                 "score": score
             })
         });
+        geoLocationarr.sort((a, b) => b.score - a.score);
+        geoLocation["suggestions"] = geoLocationarr.slice(1,10);
         
         
 
@@ -75,7 +82,7 @@ exports.getlocations = (req, res) => {
         locations.forEach(location => {
             const nameSimilarity  = Number(textCosineSimilarity(name,location["name"]));
             const score = Number((nameSimilarity).toFixed(2));
-            //console.log(typeof(locationSimilarity),typeof(nameSimilarity));
+            
             geoLocationarr.push({
                 "name":location["name"],
                 "latitude": location["lat"],
@@ -83,22 +90,23 @@ exports.getlocations = (req, res) => {
                 "score": score
             })
         });
+        geoLocationarr.sort((a, b) => b.score - a.score);
+        geoLocation["suggestions"] = geoLocationarr.slice(1,10);
         
         
 
     }
 
     else {
-        geoLocation["suggestions"] = geoLocationarr;
-        res.status(200).json(geoLocation);
+        console.log("no data");
+        geoLocation["suggestions"] = [];
+
+        
         
     }
-    geoLocationarr.sort((a, b) => b.score - a.score);
-    geoLocation["suggestions"] = geoLocationarr;
+    
 
 
     res.status(200).json(geoLocation);
 }
 
-
-//"score": textCosineSimilarity(req.query.q,name)
