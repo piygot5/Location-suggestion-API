@@ -18,3 +18,6 @@ Location name similarity algorithm is written in utils/similarity.js based on Le
 Latitude and longitude similarity is calculated using cosine similarity and is written in utils/similarity.js
 The average of the above two similarities is stored as the score and suggestions are sorted by descending score. 
 The pagination feature is also added to and 10 results per page is shown to the user at a time and it is used as “page” in the request URL which denotes page number. For example https://agile-garden-94943.herokuapp.com/suggestions?q=Londo&latitude=43.70011&longitude=-79.4163&page=2
+
+![image](https://user-images.githubusercontent.com/47223560/135649062-706316dc-97b5-4d1c-9341-9d69eb5d0944.png)
+
